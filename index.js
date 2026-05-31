@@ -95,6 +95,7 @@ app.get("/data", (req, res) => {
     }
 
     console.log("👍👍👍👍👍👍👍👍👍👍");
+    console.log("all Everting ok")
 
     res.status(200).json({
         message: "All good",
