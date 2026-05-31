@@ -10,7 +10,7 @@ app.get("/data", (req, res) => {
 
     const data = [];
 
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 125; i++) {
         data.push({
             id: i,
             name: `User ${i}`,
