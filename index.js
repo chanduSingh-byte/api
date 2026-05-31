@@ -59,7 +59,12 @@ app.get("/sum", (req, res) => {
 });
 
 
+app.use(express.static("public"));
 
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
 app.get("/data", (req, res) => {
 
     const data = [];
