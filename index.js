@@ -5,6 +5,9 @@ const path = require("path");
 // static frontend
 app.use(express.static("public"));
 
+const cors = require('cors');
+app.use(cors()); // Put this before your routes
+
 // API
 app.get("/data", (req, res) => {
 
