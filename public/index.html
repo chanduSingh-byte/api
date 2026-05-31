@@ -1,515 +1,623 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>API Dashboard</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f5f5f3;
-    --bg-tertiary: #ededea;
-    --text-primary: #1a1a18;
-    --text-secondary: #6b6b67;
-    --text-tertiary: #9e9e9a;
-    --border-tertiary: rgba(0,0,0,0.1);
-    --border-secondary: rgba(0,0,0,0.18);
-    --border-primary: rgba(0,0,0,0.28);
-    --color-success-bg: #eaf3de;
-    --color-success-text: #27500a;
-    --color-warning-bg: #faeeda;
-    --color-warning-text: #633806;
-    --color-info-text: #185fa5;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --font-mono: 'Courier New', monospace;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg-primary: #1e1e1c;
-      --bg-secondary: #2a2a28;
-      --bg-tertiary: #232321;
-      --text-primary: #f0ede8;
-      --text-secondary: #a8a8a2;
-      --text-tertiary: #6e6e68;
-      --border-tertiary: rgba(255,255,255,0.1);
-      --border-secondary: rgba(255,255,255,0.18);
-      --border-primary: rgba(255,255,255,0.28);
-      --color-success-bg: #173404;
-      --color-success-text: #c0dd97;
-      --color-warning-bg: #412402;
-      --color-warning-text: #FAC775;
-      --color-info-text: #85B7EB;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-  }
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    min-height: 100vh;
-    padding: 1rem;
-  }
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f5f5f3;
+      --bg-tertiary: #ededea;
+      --text-primary: #1a1a18;
+      --text-secondary: #6b6b67;
+      --text-tertiary: #9e9e9a;
+      --border-tertiary: rgba(0, 0, 0, 0.1);
+      --border-secondary: rgba(0, 0, 0, 0.18);
+      --border-primary: rgba(0, 0, 0, 0.28);
+      --color-success-bg: #eaf3de;
+      --color-success-text: #27500a;
+      --color-warning-bg: #faeeda;
+      --color-warning-text: #633806;
+      --color-info-text: #185fa5;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --font-mono: 'Courier New', monospace;
+    }
 
-  .dash {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 1rem 0;
-  }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #1e1e1c;
+        --bg-secondary: #2a2a28;
+        --bg-tertiary: #232321;
+        --text-primary: #f0ede8;
+        --text-secondary: #a8a8a2;
+        --text-tertiary: #6e6e68;
+        --border-tertiary: rgba(255, 255, 255, 0.1);
+        --border-secondary: rgba(255, 255, 255, 0.18);
+        --border-primary: rgba(255, 255, 255, 0.28);
+        --color-success-bg: #173404;
+        --color-success-text: #c0dd97;
+        --color-warning-bg: #412402;
+        --color-warning-text: #FAC775;
+        --color-info-text: #85B7EB;
+      }
+    }
 
-  .top-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.25rem;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 1rem;
+    }
 
-  .top-bar h1 {
-    font-size: 17px;
-    font-weight: 500;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+    .dash {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 1rem 0;
+    }
 
-  .top-bar h1 code {
-    font-size: 14px;
-    font-weight: 400;
-    font-family: var(--font-mono);
-    background: var(--bg-secondary);
-    padding: 2px 7px;
-    border-radius: var(--radius-md);
-    border: 0.5px solid var(--border-tertiary);
-  }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-  .badge-ok {
-    background: var(--color-success-bg);
-    color: var(--color-success-text);
-    font-size: 12px;
-    padding: 4px 11px;
-    border-radius: 99px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+    .top-bar h1 {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 10px;
-    margin-bottom: 1.25rem;
-  }
+    .top-bar h1 code {
+      font-size: 14px;
+      font-weight: 400;
+      font-family: var(--font-mono);
+      background: var(--bg-secondary);
+      padding: 2px 7px;
+      border-radius: var(--radius-md);
+      border: 0.5px solid var(--border-tertiary);
+    }
 
-  @media (max-width: 480px) {
-    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
+    .badge-ok {
+      background: var(--color-success-bg);
+      color: var(--color-success-text);
+      font-size: 12px;
+      padding: 4px 11px;
+      border-radius: 99px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
 
-  .stat {
-    background: var(--bg-secondary);
-    border-radius: var(--radius-md);
-    padding: .85rem 1rem;
-  }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
 
-  .stat-label {
-    font-size: 11px;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    margin-bottom: 5px;
-  }
+    @media (max-width: 480px) {
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
 
-  .stat-val {
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--text-primary);
-    line-height: 1.2;
-  }
+    .stat {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      padding: .85rem 1rem;
+    }
 
-  .stat-sub {
-    font-size: 11px;
-    color: var(--text-tertiary);
-    margin-top: 3px;
-  }
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 5px;
+    }
 
-  .filters {
-    display: flex;
-    gap: 7px;
-    margin-bottom: 1.1rem;
-    flex-wrap: wrap;
-    align-items: center;
-  }
+    .stat-val {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
 
-  .filters span {
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
+    .stat-sub {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 3px;
+    }
 
-  .fbtn {
-    background: transparent;
-    border: 0.5px solid var(--border-secondary);
-    border-radius: var(--radius-md);
-    padding: 6px 14px;
-    font-size: 12px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all .15s;
-    min-height: 36px;
-    font-family: inherit;
-  }
+    .filters {
+      display: flex;
+      gap: 7px;
+      margin-bottom: 1.1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
 
-  .fbtn:hover, .fbtn.active {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    border-color: var(--border-primary);
-  }
+    .filters span {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
 
-  .cards {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+    .fbtn {
+      background: transparent;
+      border: 0.5px solid var(--border-secondary);
+      border-radius: var(--radius-md);
+      padding: 6px 14px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all .15s;
+      min-height: 36px;
+      font-family: inherit;
+    }
 
-  .card {
-    background: var(--bg-primary);
-    border: 0.5px solid var(--border-tertiary);
-    border-radius: var(--radius-lg);
-    padding: 1.1rem 1.25rem;
-    transition: border-color .2s, transform .2s;
-    animation: fadeSlide .35s ease both;
-  }
+    .fbtn:hover,
+    .fbtn.active {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      border-color: var(--border-primary);
+    }
 
-  .card:hover { border-color: var(--border-primary); transform: translateY(-1px); }
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
-  @keyframes fadeSlide {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+    .card {
+      background: var(--bg-primary);
+      border: 0.5px solid var(--border-tertiary);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.25rem;
+      transition: border-color .2s, transform .2s;
+      animation: fadeSlide .35s ease both;
+    }
 
-  .card-head {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    margin-bottom: 1rem;
-  }
+    .card:hover {
+      border-color: var(--border-primary);
+      transform: translateY(-1px);
+    }
 
-  .av {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    font-size: 13px;
-    flex-shrink: 0;
-  }
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
 
-  .av1 { background: #E6F1FB; color: #0C447C; }
-  .av2 { background: #EAF3DE; color: #27500A; }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-  .card-meta { flex: 1; min-width: 0; }
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 1rem;
+    }
 
-  .card-meta h2 {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
+    .av {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
 
-  .card-meta p {
-    font-size: 12px;
-    color: var(--text-secondary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 2px;
-  }
+    .av1 {
+      background: #E6F1FB;
+      color: #0C447C;
+    }
 
-  .id-chip {
-    font-size: 11px;
-    background: var(--bg-secondary);
-    border: 0.5px solid var(--border-tertiary);
-    border-radius: var(--radius-md);
-    padding: 1px 6px;
-    color: var(--text-tertiary);
-    font-family: var(--font-mono);
-    font-weight: 400;
-  }
+    .av2 {
+      background: #EAF3DE;
+      color: #27500A;
+    }
 
-  .sbadge {
-    font-size: 11px;
-    padding: 3px 10px;
-    border-radius: 99px;
-    font-weight: 500;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-  }
+    .card-meta {
+      flex: 1;
+      min-width: 0;
+    }
 
-  .s-active  { background: var(--color-success-bg); color: var(--color-success-text); }
-  .s-inactive{ background: var(--color-warning-bg); color: var(--color-warning-text); }
+    .card-meta h2 {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
 
-  .divider {
-    border: none;
-    border-top: 0.5px solid var(--border-tertiary);
-    margin: .9rem 0;
-  }
+    .card-meta p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
 
-  .rows { display: flex; flex-direction: column; gap: 8px; }
+    .id-chip {
+      font-size: 11px;
+      background: var(--bg-secondary);
+      border: 0.5px solid var(--border-tertiary);
+      border-radius: var(--radius-md);
+      padding: 1px 6px;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+      font-weight: 400;
+    }
 
-  .row {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
+    .sbadge {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-weight: 500;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
 
-  .row i { font-size: 15px; color: var(--text-tertiary); flex-shrink: 0; margin-top: 1px; }
+    .s-active {
+      background: var(--color-success-bg);
+      color: var(--color-success-text);
+    }
 
-  .row-val {
-    margin-left: auto;
-    color: var(--text-primary);
-    font-size: 12px;
-    text-align: right;
-    word-break: break-all;
-    max-width: 60%;
-  }
+    .s-inactive {
+      background: var(--color-warning-bg);
+      color: var(--color-warning-text);
+    }
 
-  .mono { font-family: var(--font-mono); font-size: 11px; }
+    .divider {
+      border: none;
+      border-top: 0.5px solid var(--border-tertiary);
+      margin: .9rem 0;
+    }
 
-  .pills {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-top: .85rem;
-  }
+    .rows {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
 
-  .pill {
-    font-size: 11px;
-    padding: 2px 9px;
-    border-radius: 99px;
-    border: 0.5px solid var(--border-tertiary);
-    color: var(--text-secondary);
-    background: var(--bg-secondary);
-    display: flex;
-    align-items: center;
-    gap: 3px;
-  }
+    .row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
 
-  .tog {
-    background: transparent;
-    border: none;
-    font-size: 12px;
-    color: var(--color-info-text);
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-top: .8rem;
-    min-height: 36px;
-    font-family: inherit;
-  }
+    .row i {
+      font-size: 15px;
+      color: var(--text-tertiary);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
 
-  .tog i { transition: transform .25s; font-size: 14px; }
-  .tog.open i { transform: rotate(180deg); }
+    .row-val {
+      margin-left: auto;
+      color: var(--text-primary);
+      font-size: 12px;
+      text-align: right;
+      word-break: break-all;
+      max-width: 60%;
+    }
 
-  .expand {
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height .3s ease;
-  }
+    .mono {
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
 
-  .expand.open { max-height: 600px; overflow-y: auto; }
+    .pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: .85rem;
+    }
 
-  .hdr-section {
-    margin-top: .85rem;
-    padding-top: .85rem;
-    border-top: 0.5px solid var(--border-tertiary);
-  }
+    .pill {
+      font-size: 11px;
+      padding: 2px 9px;
+      border-radius: 99px;
+      border: 0.5px solid var(--border-tertiary);
+      color: var(--text-secondary);
+      background: var(--bg-secondary);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
 
-  .hdr-title {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    margin-bottom: 8px;
-  }
+    .tog {
+      background: transparent;
+      border: none;
+      font-size: 12px;
+      color: var(--color-info-text);
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: .8rem;
+      min-height: 36px;
+      font-family: inherit;
+    }
 
-  .hdr-list { display: flex; flex-direction: column; gap: 5px; }
+    .tog i {
+      transition: transform .25s;
+      font-size: 14px;
+    }
 
-  .hdr-item { display: flex; gap: 8px; font-size: 12px; flex-wrap: wrap; }
+    .tog.open i {
+      transform: rotate(180deg);
+    }
 
-  .hk {
-    color: var(--text-secondary);
-    min-width: 130px;
-    flex-shrink: 0;
-    font-family: var(--font-mono);
-    font-size: 11px;
-  }
+    .expand {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height .3s ease;
+    }
 
-  .hv {
-    color: var(--text-primary);
-    word-break: break-all;
-    font-size: 11px;
-  }
+    .expand.open {
+      max-height: 600px;
+      overflow-y: auto;
+    }
 
-  @media (max-width: 480px) {
-    body { padding: .75rem; }
-    .card { padding: .9rem 1rem; }
-    .top-bar h1 { font-size: 15px; }
-    .stat-val { font-size: 20px; }
-    .hk { min-width: 100px; }
-    .row-val { max-width: 55%; }
-  }
-</style>
+    .hdr-section {
+      margin-top: .85rem;
+      padding-top: .85rem;
+      border-top: 0.5px solid var(--border-tertiary);
+    }
+
+    .hdr-title {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 8px;
+    }
+
+    .hdr-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .hdr-item {
+      display: flex;
+      gap: 8px;
+      font-size: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hk {
+      color: var(--text-secondary);
+      min-width: 130px;
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .hv {
+      color: var(--text-primary);
+      word-break: break-all;
+      font-size: 11px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: .75rem;
+      }
+
+      .card {
+        padding: .9rem 1rem;
+      }
+
+      .top-bar h1 {
+        font-size: 15px;
+      }
+
+      .stat-val {
+        font-size: 20px;
+      }
+
+      .hk {
+        min-width: 100px;
+      }
+
+      .row-val {
+        max-width: 55%;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="dash">
+  <div class="dash">
 
-  <div class="top-bar">
-    <h1>
-      <i class="ti ti-database" style="font-size:20px;color:var(--text-secondary)" aria-hidden="true"></i>
-      GET <code>/data</code>
-    </h1>
-    <span class="badge-ok" id="status-badge">
-      <i class="ti ti-loader" style="font-size:13px" aria-hidden="true"></i>
-      Loading...
-    </span>
+    <div class="top-bar">
+      <h1>
+        <i class="ti ti-database" style="font-size:20px;color:var(--text-secondary)" aria-hidden="true"></i>
+        GET <code>/data</code>
+      </h1>
+      <span class="badge-ok" id="status-badge">
+        <i class="ti ti-loader" style="font-size:13px" aria-hidden="true"></i>
+        Loading...
+      </span>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">Total</div>
+        <div class="stat-val" id="stat-total">0</div>
+        <div class="stat-sub">records</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Active</div>
+        <div class="stat-val" style="color:var(--color-success-text)" id="stat-active">0</div>
+        <div class="stat-sub">Users</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Inactive</div>
+        <div class="stat-val" style="color:var(--color-warning-text)" id="stat-inactive">0</div>
+        <div class="stat-sub">Users</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Network</div>
+        <div class="stat-val" style="font-size:16px;line-height:1.8">Cloudflare</div>
+        <div class="stat-sub">Proxied</div>
+      </div>
+    </div>
+
+    <div class="filters">
+      <span>Filter:</span>
+      <button class="fbtn active" onclick="filter('all', this)">All</button>
+      <button class="fbtn" onclick="filter('active', this)">Active</button>
+      <button class="fbtn" onclick="filter('inactive', this)">Inactive</button>
+    </div>
+
+    <div class="cards" id="cards"></div>
+
   </div>
 
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-label">Total</div>
-      <div class="stat-val" id="stat-total">0</div>
-      <div class="stat-sub">records</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Active</div>
-      <div class="stat-val" style="color:var(--color-success-text)" id="stat-active">0</div>
-      <div class="stat-sub">Users</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Inactive</div>
-      <div class="stat-val" style="color:var(--color-warning-text)" id="stat-inactive">0</div>
-      <div class="stat-sub">Users</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Network</div>
-      <div class="stat-val" style="font-size:16px;line-height:1.8">Cloudflare</div>
-      <div class="stat-sub">Proxied</div>
-    </div>
-  </div>
+  <script>
+    let users = [];
 
-  <div class="filters">
-    <span>Filter:</span>
-    <button class="fbtn active" onclick="filter('all', this)">All</button>
-    <button class="fbtn" onclick="filter('active', this)">Active</button>
-    <button class="fbtn" onclick="filter('inactive', this)">Inactive</button>
-  </div>
+    async function fetchData() {
+      try {
+        const res = await fetch("https://api-dcx0.onrender.com/data");
+        const jsonResponse = await res.json();
 
-  <div class="cards" id="cards"></div>
+        // Check if the request was successful and data exists
+        if (jsonResponse.success && Array.isArray(jsonResponse.data)) {
+          users = jsonResponse.data;
+          // console.log(users)
+          // console.log("API DATA LOADED:", users);
 
-</div>
+          // Update top status badge
+          const badge = document.getElementById("status-badge");
+          badge.innerHTML = `<i class="ti ti-check" style="font-size:13px"></i> success: true`;
 
-<script>
-let users = []; 
+          // Update Dashboard Statistics
+          updateStats(users);
+          console.log(users)
 
-async function fetchData() {
-  try {
-    const res = await fetch("https://api-dcx0.onrender.com/data");
-    const jsonResponse = await res.json(); 
-    
-    // Check if the request was successful and data exists
-    if (jsonResponse.success && Array.isArray(jsonResponse.data)) {
-        users = jsonResponse.data;
-        console.log(users)
-        console.log("API DATA LOADED:", users);
-        
-        // Update top status badge
-        const badge = document.getElementById("status-badge");
-        badge.innerHTML = `<i class="ti ti-check" style="font-size:13px"></i> success: true`;
-        
-        // Update Dashboard Statistics
-        updateStats(users);
-
-        // Render the cards
-        renderCards(users);
-    } else {
-        throw new Error("Invalid API response format");
+          // Render the cards
+          renderCards(users);
+        } else {
+          throw new Error("Invalid API response format");
+          console.log("Api error")
+        }
+      } catch (error) {
+        console.error("ERROR:", error);
+        document.getElementById("status-badge").innerHTML = `<i class="ti ti-alert-triangle" style="font-size:13px"></i> Error`;
+        document.getElementById("status-badge").style.backgroundColor = "var(--color-warning-bg)";
+        document.getElementById("status-badge").style.color = "var(--color-warning-text)";
+        document.getElementById("cards").innerHTML = `<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">Error loading data from API.</p>`;
+      }
     }
-  } catch (error) {
-    console.error("ERROR:", error);
-    document.getElementById("status-badge").innerHTML = `<i class="ti ti-alert-triangle" style="font-size:13px"></i> Error`;
-    document.getElementById("status-badge").style.backgroundColor = "var(--color-warning-bg)";
-    document.getElementById("status-badge").style.color = "var(--color-warning-text)";
-    document.getElementById("cards").innerHTML = `<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">Error loading data from API.</p>`;
-  }
-}
 
-// Fetch the data as soon as the page loads
-fetchData();
+    // Fetch the data as soon as the page loads
+    fetchData();
 
-function updateStats(list) {
-    const total = list.length;
-    const active = list.filter(u => u.status === 'active').length;
-    const inactive = list.filter(u => u.status === 'inactive').length;
+    function animateValue(elementId, endValue, duration = 1000) {
+      const element = document.getElementById(elementId);
+      let startValue = 0;
 
-    document.getElementById("stat-total").textContent = total;
-    document.getElementById("stat-active").textContent = active;
-    document.getElementById("stat-inactive").textContent = inactive;
-}
+      const increment = endValue / (duration / 20);
 
-function initials(n) {
-  if (!n) return "?";
-  return n.split(" ").map(w => w[0]).join("").toUpperCase();
-}
+      const timer = setInterval(() => {
+        startValue += increment;
 
-function renderCards(list) {
-  const c = document.getElementById("cards");
-  c.innerHTML = "";
-  
-  if (!list || list.length === 0) {
-      c.innerHTML = `<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">No records match this filter.</p>`;
-      return;
-  }
+        if (startValue >= endValue) {
+          element.textContent = endValue;
+          clearInterval(timer);
+        } else {
+          element.textContent = Math.floor(startValue);
+        }
+      }, 20);
+    }
 
-  list.forEach((u, i) => {
-    const active = u.status === "active";
-    const div = document.createElement("div");
-    div.className = "card";
-    div.style.animationDelay = (i * 0.08) + "s";
-    
-    // IMPORTANT: Path adjusted to match the new JSON structure
-    const headers = (u.request && u.request.headers) ? u.request.headers : {};
-    const method = (u.request && u.request.method) ? u.request.method : "GET";
-    const url = (u.request && u.request.url) ? u.request.url : "/data";
-    
-    const hkeys = Object.keys(headers);
-    
-    // Assign avatars randomly based on ID for a nice visual
-    const avatarClass = (u.id % 2 === 0) ? "av2" : "av1";
+    function updateStats(list1) {
+      const total = list1.length;
+      const active = list1.filter(u => u.status === "active").length;
+      const inactive = list1.filter(u => u.status === "inactive").length;
 
-    div.innerHTML = `
+      animateValue("stat-total", total);
+      animateValue("stat-active", active);
+      animateValue("stat-inactive", inactive);
+    }
+
+    function initials(n) {
+      if (!n) return "?";
+      return n.split(" ").map(w => w[0]).join("").toUpperCase();
+    }
+
+    function renderCards(list) {
+      const c = document.getElementById("cards");
+      c.innerHTML = "";
+
+      if (!list || list.length === 0) {
+        c.innerHTML = `<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">No records match this filter.</p>`;
+        return;
+      }
+
+      list.forEach((u, i) => {
+        const active = u.status === "active";
+        const div = document.createElement("div");
+        div.className = "card";
+        div.style.animationDelay = (i * 0.08) + "s";
+
+
+        // IMPORTANT: Path adjusted to match the new JSON structure
+        const headers = (u.request && u.request.headers) ? u.request.headers : {};
+        console.log(headers)
+        const method = (u.request && u.request.method) ? u.request.method : "";
+        console.log(method)
+        const url = (u.request && u.request.url) ? u.request.url : "/data";
+
+        const hkeys = Object.keys(headers);
+
+        // Assign avatars randomly based on ID for a nice visual
+        const avatarClass = (u.id % 2 === 0) ? "av2" : "av1";
+
+        div.innerHTML = `
       <div class="card-head">
         <div class="av ${avatarClass}">${initials(u.name)}</div>
         <div class="card-meta">
-          <h2>${u.name || 'Unknown User'} <span class="id-chip">#${u.id || 'N/A'}</span></h2>
+          <h2>${u.name || 'Unknown User'}  /${headers["true-client-ip"]} <span class="id-chip">#${u.id || 'N/A'}</span></h2>
           <p><i class="ti ti-mail" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>${u.email || 'No email'}</p>
         </div>
         <span class="sbadge ${active ? 's-active' : 's-inactive'}">
@@ -520,15 +628,16 @@ function renderCards(list) {
       <hr class="divider">
       <div class="rows">
         <div class="row"><i class="ti ti-globe" aria-hidden="true"></i>Hostname<span class="row-val">${headers["host"] || u.request?.hostname || '-'}</span></div>
+        <div class="row"><i class="ti ti-browser" aria-hidden="true"></i>Mehod<span class="row-val">${method || '-'}</span></div>
         <div class="row"><i class="ti ti-network" aria-hidden="true"></i>Client IP<span class="row-val mono">${headers["cf-connecting-ip"] || headers["true-client-ip"] || '-'}</span></div>
         <div class="row"><i class="ti ti-map-pin" aria-hidden="true"></i>Country<span class="row-val">${headers["cf-ipcountry"] || '-'}</span></div>
-        <div class="row"><i class="ti ti-device-desktop" aria-hidden="true"></i>User Agent<span class="row-val">${(headers["user-agent"] || '-').replace(/"/g,"")}</span></div>
+        <div class="row"><i class="ti ti-device-desktop" aria-hidden="true"></i>User Agent<span class="row-val">${(headers["user-agent"] || '-').replace(/"/g, "")}</span></div>
         <div class="row"><i class="ti ti-browser" aria-hidden="true"></i>Accept<span class="row-val">${headers["accept"] || '-'}</span></div>
       </div>
       <div class="pills">
         <span class="pill"><i class="ti ti-arrow-right" style="font-size:11px" aria-hidden="true"></i>${method} ${url}</span>
         <span class="pill"><i class="ti ti-shield" style="font-size:11px" aria-hidden="true"></i>${headers["x-forwarded-proto"] || 'http'}</span>
-        ${headers["cf-ray"] ? `<span class="pill mono" style="font-size:10px">CF ${headers["cf-ray"].slice(0,12)}…</span>` : ''}
+        ${headers["cf-ray"] ? `<span class="pill mono" style="font-size:10px">CF ${headers["cf-ray"].slice(0, 12)}…</span>` : ''}
       </div>
       <button class="tog" id="tog-${u.id}" onclick="toggle('${u.id}')">
         <i class="ti ti-chevron-down" aria-hidden="true"></i>
@@ -547,30 +656,31 @@ function renderCards(list) {
         </div>
       </div>
     `;
-    c.appendChild(div);
-  });
-}
+        c.appendChild(div);
+      });
+    }
 
-function toggle(id) {
-  const ex = document.getElementById("exp-" + id);
-  const btn = document.getElementById("tog-" + id);
-  if (!ex || !btn) return; 
-  const open = ex.classList.toggle("open");
-  btn.classList.toggle("open", open);
-  btn.querySelector("span").textContent = open ? "Hide request headers" : "Show request headers";
-}
+    function toggle(id) {
+      const ex = document.getElementById("exp-" + id);
+      const btn = document.getElementById("tog-" + id);
+      if (!ex || !btn) return;
+      const open = ex.classList.toggle("open");
+      btn.classList.toggle("open", open);
+      btn.querySelector("span").textContent = open ? "Hide request headers" : "Show request headers";
+    }
 
-function filter(type, el) {
-  // Update button classes
-  document.querySelectorAll(".fbtn").forEach(b => b.classList.remove("active"));
-  el.classList.add("active");
-  
-  // Filter the list
-  const filtered = type === "all" ? users : users.filter(u => u.status === type);
-  renderCards(filtered);
-}
+    function filter(type, el) {
+      // Update button classes
+      document.querySelectorAll(".fbtn").forEach(b => b.classList.remove("active"));
+      el.classList.add("active");
+
+      // Filter the list
+      const filtered = type === "all" ? users : users.filter(u => u.status === type);
+      renderCards(filtered);
+    }
 
 
-</script>
+  </script>
 </body>
+
 </html>
