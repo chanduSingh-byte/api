@@ -16,5 +16,10 @@ router.get("/server", (req, res) => {
     res.sendFile(path.join(__dirname, "../public", "user.html"));
 });
 
+
+router.use((req, res) => {
+    // get("*") ki jagah use() lagaya aur status(404) add kiya
+    res.status(404).sendFile(path.join(__dirname, "../public", "404.html"));
+});
 // Is router ko export karein taaki server.js isko use kar sake
 module.exports = router;

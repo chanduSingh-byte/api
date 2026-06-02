@@ -97,6 +97,16 @@ app.get("/data", (req, res) => {
   });
 });
 
+
+
+// Naya Code (Best Practice)
+
+
+
+
+
+
+
 // Server Start Karna
 const PORT = process.env.PORT || 10108;
 app.listen(PORT, () => {
