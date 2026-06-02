@@ -1,0 +1,20 @@
+const express = require("express");
+const path = require("path");
+
+// Express Router initialize karein
+const router = express.Router();
+
+// Route 1: Home Page ( / )
+router.get("/", (req, res) => {
+    // Dhyan dein: hum yahan "../" use kar rahe hain kyunki ye file 'routes' folder ke andar hai,
+    // aur public folder ek step bahar (pichhe) hai.
+    res.sendFile(path.join(__dirname, "../public", "index.html"));
+});
+
+// Route 2: User Page ( /user )
+router.get("/server", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public", "user.html"));
+});
+
+// Is router ko export karein taaki server.js isko use kar sake
+module.exports = router;

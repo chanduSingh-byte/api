@@ -12,6 +12,16 @@ app.set("trust proxy", true); // Real IP ke liye agar cloud par host karein
 app.use(express.static("public"));
 
 // ==========================================
+// 🔗 ROUTING FILES KO LINK KARNA
+// ==========================================
+
+// 1. Pages wala router import karein
+const pageRoutes = require("./Router/static");
+
+// 2. Express ko batayein ki in routes ko use kare
+app.use("/", pageRoutes);
+
+// ==========================================
 // 🚀 GET API ENDPOINT
 // ==========================================
 app.get("/api/data", (req, res) => {
@@ -88,7 +98,7 @@ app.get("/data", (req, res) => {
 });
 
 // Server Start Karna
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10108;
 app.listen(PORT, () => {
   console.log(`✅ Server is running on: http://localhost:${PORT}`);
   console.log(
