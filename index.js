@@ -9,6 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json()); // JSON handle karne ke liye
 app.set("trust proxy", true); // Real IP ke liye agar cloud par host karein
+app.use(express.static("public"));
 
 // ==========================================
 // 🚀 GET API ENDPOINT
