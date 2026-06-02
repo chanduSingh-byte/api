@@ -519,8 +519,8 @@
 
     async function fetchData() {
       try {
-        // const res = await fetch("https://api-dcx0.onrender.com/data");
-        const res = await fetch("http://localhost:5000/data");
+        const res = await fetch("https://api-dcx0.onrender.com/data");
+        // const res = await fetch("http://localhost:5000/data");
         const jsonResponse = await res.json();
 
         // Check if the request was successful and data exists
